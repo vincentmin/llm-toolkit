@@ -11,6 +11,8 @@ trait Runnable {
       case runnable: Runnable => runnable.run(stringInputs)
     )
     evaluatedRunnables.foldLeft(stringInputs) { (acc, output) =>
+      if acc.keys.exists(output.contains(_)) then
+        println(s"Warning: key already exists in input: $output")
       acc ++ output
     }
 

@@ -7,3 +7,4 @@ This package contains some simple classes that help you interact with LLM. Creat
 - Implement an actual LLM, such as OpenAI
 - Add vector store support
 - Allow for more input types than just strings. For example, `List[String]`.
+- Allow for passthrough of inputs not to the first runnable, but runnables further down the chain.
