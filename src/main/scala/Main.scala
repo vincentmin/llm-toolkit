@@ -1,6 +1,7 @@
 import models.llm.Repeater
 import models.PromptTemplate
 import base.Chain
+import models.llm.Randomizer
 
 @main def run: Unit =
 
@@ -46,6 +47,15 @@ import base.Chain
         "name" -> "Charlie",
         "project" -> "Scala3",
         "context" -> contextPrompt // With invoke we can pass in a runnable as a value
+      )
+    )
+  )
+  println(
+    invokeChain.invoke(
+      Map(
+        "name" -> "Charlie",
+        "project" -> "Scala3",
+        "context" -> Randomizer(outputKey = "context")
       )
     )
   )
