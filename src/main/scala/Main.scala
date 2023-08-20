@@ -4,31 +4,30 @@ import models.PromptTemplate
 import base.Chain
 
 @main def run: Unit =
+
+  // setup
   val prompt = PromptTemplate("Hello $name, welcome to $project")
-  println(
-    prompt.run(
-      Map("name" -> "John", "project" -> "Scala3")
-    )("prompt")
-  )
-  println("hello world!")
+
   val llm = Repeater()
-  println(
-    llm.run(
-      prompt.run(Map("name" -> "Sarah", "project" -> "Scala3"))
-    )
-  )
 
-  val seq: Chain = Chain(prompt, llm)
+  // run template
+  println(prompt.run(Map("name" -> "John", "project" -> "Scala3")))
 
-  println(seq.run(Map("name" -> "Bob", "project" -> "Scala3")))
+  // run llm
+  println(llm.run(prompt.run(Map("name" -> "Sarah", "project" -> "Scala3"))))
 
-  val multiseq = seq >> PromptTemplate("The output was $response") >> Repeater()
+  // run chain
+  val chain: Chain = Chain(prompt, llm)
+
+  println(chain.run(Map("name" -> "Bob", "project" -> "Scala3")))
+
+  // run longer chain
+  val intermediatePrompt = PromptTemplate("The output was $response")
+  val multiseq = chain >> intermediatePrompt >> llm
 
   println(multiseq.run(Map("name" -> "Bob", "project" -> "Scala3")))
 
-  val betterseq = PromptTemplate("Hello $name, welcome to $project") >>
-    Repeater() >>
-    PromptTemplate("The output was $response") >>
-    Repeater()
+  // run single chain
+  val singleChain = prompt >> llm >> intermediatePrompt >> llm
 
-  println(betterseq.run(Map("name" -> "Charlie", "project" -> "Scala3")))
+  println(singleChain.run(Map("name" -> "Charlie", "project" -> "Scala3")))
