@@ -1,4 +1,5 @@
 package base
+import base.Runnable
 
 case class Chain(first: Runnable, second: Runnable) extends Runnable {
 

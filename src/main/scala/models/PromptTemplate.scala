@@ -1,5 +1,6 @@
 package models
-import base.{Runnable, StringInput, Output}
+import base.{StringInput, Output}
+import base.Runnable
 
 final case class PromptTemplate(template: String, outputKey: String = "prompt")
     extends Runnable {

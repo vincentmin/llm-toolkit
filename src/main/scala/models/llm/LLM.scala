@@ -1,5 +1,6 @@
 package models.llm
-import base.{Runnable, StringInput, Output}
+import base.{StringInput, Output}
+import base.Runnable
 
 trait LLM extends Runnable {
   def run(input: StringInput): Output
