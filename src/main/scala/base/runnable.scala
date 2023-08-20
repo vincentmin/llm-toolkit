@@ -1,7 +1,5 @@
 package base
 
-import scala.compiletime.ops.string
-
 trait Runnable {
   def run(input: StringInput): Output
 
