@@ -1,6 +1,8 @@
 package base
 
 case class Chain(first: Runnable, second: Runnable) extends Runnable {
-  def run(input: Input): Output =
-    second.run(first.run(input))
+
+  override def invoke(input: Input): Output =
+    second.invoke(first.invoke(input))
+  def run(input: StringInput): Output = invoke(input)
 }

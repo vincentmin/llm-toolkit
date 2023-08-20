@@ -1,13 +1,14 @@
 package models
-import base.{Runnable, Input, Output}
+import base.{Runnable, StringInput, Output}
 
-final case class PromptTemplate(template: String) extends Runnable {
+final case class PromptTemplate(template: String, outputKey: String = "prompt")
+    extends Runnable {
 
   val parameters: Seq[String] =
     """\$\w+""".r.findAllIn(template).toSeq.map(_.drop(1))
 
-  def run(input: Input): Output = Map(
-    "prompt" -> parameters.foldLeft(template) { (acc, param) =>
+  def run(input: StringInput): Output = Map(
+    outputKey -> parameters.foldLeft(template) { (acc, param) =>
       acc.replace("$" + param, input(param))
     }
   )

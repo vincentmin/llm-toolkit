@@ -31,3 +31,22 @@ import base.Chain
   val singleChain = prompt >> llm >> intermediatePrompt >> llm
 
   println(singleChain.run(Map("name" -> "Charlie", "project" -> "Scala3")))
+
+  // invoke single chain
+  val contextPrompt = PromptTemplate(
+    "Your name is $name and your project is $project",
+    "context"
+  )
+  val invokePrompt = PromptTemplate(
+    "Hello $name, welcome to $project. $context"
+  )
+  val invokeChain = invokePrompt >> llm
+  println(
+    invokeChain.invoke(
+      Map(
+        "name" -> "Charlie",
+        "project" -> "Scala3",
+        "context" -> contextPrompt // With invoke we can pass in a runnable as a value
+      )
+    )
+  )
